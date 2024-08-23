@@ -1,0 +1,74 @@
+{
+  "name": "@tonai/game-utils",
+  "version": "1.0.0",
+  "description": "Game development utility functions",
+  "license": "MIT",
+  "homepage": "https://github.com/tonai/game-utils",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tonai/game-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tonai/game-utils/issues"
+  },
+  "keywords": [
+    "game",
+    "dev",
+    "library",
+    "utility",
+    "utils"
+  ],
+  "author": {
+    "name": "Tony Cabaye",
+    "email": "tonai59+github@gmail.com",
+    "url": "https://github.com/tonai"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint . && tsc --noEmit",
+    "lint:fix": "eslint --fix . && tsc --noEmit",
+    "format": "prettier --write --ignore-unknown .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@types/node": "^22.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-smile": "^0.5.0",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.9",
+    "prettier": "^3.3.3",
+    "tsconfig": "^7.0.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vite-plugin-dts": "^4.0.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown",
+    "*.{js,ts}": "eslint --ignore-path .gitignore"
+  }
+}
