@@ -28,20 +28,32 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "import": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "require": "./dist/index.cjs",
+        "types": "./dist/index.d.cts"
+      }
     },
     "./server": {
-      "import": "./dist/server.js",
-      "require": "./dist/server.cjs",
-      "types": "./dist/server.d.ts"
+      "import": {
+        "import": "./dist/server.js",
+        "types": "./dist/server.d.ts"
+      },
+      "require": {
+        "require": "./dist/server.cjs",
+        "types": "./dist/index.d.cts"
+      }
     }
   },
+  "files": [
+    "dist"
+  ],
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "vite build",
-    "dev": "vite build --watch",
+    "build": "tsup src/index.ts src/server.ts --format cjs,esm --dts --clean --sourcemap",
     "prepublishOnly": "npm run build",
     "lint": "eslint --ignore-path .gitignore . && tsc --noEmit",
     "lint:fix": "eslint --ignore-path .gitignore --fix . && tsc --noEmit",
@@ -63,9 +75,8 @@
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
     "tsconfig": "^7.0.0",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.2",
-    "vite-plugin-dts": "^4.0.3"
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
   },
   "engines": {
     "node": ">=18"
