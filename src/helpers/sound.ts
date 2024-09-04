@@ -35,6 +35,7 @@ export function playSound(
     instances.push(instance);
   }
   instance.volume = volume;
+  // eslint-disable-next-line no-console
   instance.play().catch((e) => console.error(e));
 
   return instance;

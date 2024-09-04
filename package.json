@@ -43,8 +43,8 @@
     "build": "vite build",
     "dev": "vite build --watch",
     "prepublishOnly": "npm run build",
-    "lint": "eslint . && tsc --noEmit",
-    "lint:fix": "eslint --fix . && tsc --noEmit",
+    "lint": "eslint --ignore-path .gitignore . && tsc --noEmit",
+    "lint:fix": "eslint --ignore-path .gitignore --fix . && tsc --noEmit",
     "format": "prettier --write --ignore-unknown .",
     "prepare": "husky",
     "check-exports": "attw --pack ."
