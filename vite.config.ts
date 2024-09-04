@@ -10,12 +10,15 @@ export default defineConfig({
       fileName: "[name]",
       formats: ["cjs", "es"],
     },
-    // rollupOptions: {
-    //   external: ['react'],
-    //   output: {
-    //     preserveModules: false,
-    //   },
-    // },
+    rollupOptions: {
+      input: {
+        index: resolve(__dirname, "src/index.ts"),
+        server: resolve(__dirname, "src/server.ts"),
+      },
+      output: {
+        preserveModules: false,
+      },
+    },
     sourcemap: true,
   },
   plugins: [dts({ insertTypesEntry: true })],

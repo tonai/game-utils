@@ -1,15 +1,10 @@
-import { randomInt } from "./random";
+import type { ISoundSources, ISounds } from "../types";
 
-export type ISoundSources = Record<string, string[] | string>;
+import { randomInt } from "../utils";
 
-export interface ISoundInstances {
-  instances: HTMLAudioElement[];
-  source: string;
-}
+const soundInstances: ISounds = {};
 
-const soundInstances: Record<string, ISoundInstances | ISoundInstances[]> = {};
-
-export function initSounds(sources: ISoundSources): void {
+export function initSounds(sources: ISoundSources): ISounds {
   for (const [id, source] of Object.entries(sources)) {
     if (typeof source === "string") {
       soundInstances[id] = { instances: [new Audio(source)], source };
@@ -20,6 +15,7 @@ export function initSounds(sources: ISoundSources): void {
       }));
     }
   }
+  return soundInstances;
 }
 
 export function playSound(

@@ -1,6 +1,6 @@
-export function createTranslator(
-  translations: Record<string, Record<string, string>>,
-) {
+import type { ITranslations } from "../types";
+
+export function createTranslator(translations: ITranslations) {
   return (language: keyof typeof translations) => {
     return (word: string): string => {
       if (
