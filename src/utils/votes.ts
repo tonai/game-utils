@@ -1,6 +1,13 @@
+import { createArray } from "./array";
 import { randomInt } from "./random";
 
-export function votesArray(data: string[]): string {
+/**
+ * Select most voted item in an array
+ *
+ * Example: ['a', 'c', 'b', 'c', 'a', 'c']
+ * Will return 'c'
+ */
+export function votesArray<T extends string>(data: T[]): T {
   const groupedVotes = data.reduce<Record<string, number>>((acc, value) => {
     acc[value] = (acc[value] ?? 0) + 1;
     return acc;
@@ -10,9 +17,19 @@ export function votesArray(data: string[]): string {
     ([, number]) => number === max,
   );
   const index = randomInt(maxVotes.length - 1);
-  return maxVotes[index][0];
+  return maxVotes[index][0] as T;
 }
 
-export function votesObject(obj: Record<string, string>): string {
-  return votesArray(Object.values(obj));
+/**
+ * Select most voted item in an object
+ *
+ * Example: { a: ['John', 'Jane'], b: ['Joe'], c: ['John', 'Jane', 'Joe'] }
+ * Will return 'c'
+ */
+export function votesObject(obj: Record<string, string[]>): string {
+  const votes = Object.entries(obj).reduce<string[]>(
+    (acc, [key, votes]) => acc.concat(createArray(votes.length, key)),
+    [],
+  );
+  return votesArray(votes);
 }
