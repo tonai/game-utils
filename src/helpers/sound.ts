@@ -52,3 +52,22 @@ export function playMusic(
   }
   return instance;
 }
+
+export function playSequence(
+  sequence: (keyof typeof soundInstances)[],
+  volume = 1,
+  ref: { current: HTMLAudioElement | undefined } = { current: undefined },
+): { current: HTMLAudioElement | undefined } {
+  const name = sequence.shift();
+  if (name) {
+    if (sequence.length > 0) {
+      ref.current = playSound(name, volume);
+      ref.current?.addEventListener("ended", () => {
+        playSequence(sequence, volume, ref);
+      });
+    } else {
+      ref.current = playMusic(name, volume);
+    }
+  }
+  return ref;
+}
