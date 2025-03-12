@@ -1,8 +1,7 @@
 {
-  "name": "@tonai/game-utils",
-  "version": "0.2.0",
-  "description": "Game development utility functions",
-  "license": "MIT",
+  "name": "@tonai/monorepo",
+  "private": true,
+  "description": "Monorepo for my utility functions",
   "homepage": "https://github.com/tonai/game-utils",
   "repository": {
     "type": "git",
@@ -11,75 +10,36 @@
   "bugs": {
     "url": "https://github.com/tonai/game-utils/issues"
   },
-  "keywords": [
-    "game",
-    "dev",
-    "library",
-    "utility",
-    "utils"
-  ],
   "author": {
     "name": "Tony Cabaye",
     "email": "tonai59+github@gmail.com",
     "url": "https://github.com/tonai"
   },
-  "type": "module",
-  "main": "./dist/index.js",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "import": "./dist/index.js",
-        "types": "./dist/index.d.ts"
-      },
-      "require": {
-        "require": "./dist/index.cjs",
-        "types": "./dist/index.d.cts"
-      }
-    },
-    "./server": {
-      "import": {
-        "import": "./dist/server.js",
-        "types": "./dist/server.d.ts"
-      },
-      "require": {
-        "require": "./dist/server.cjs",
-        "types": "./dist/index.d.cts"
-      }
-    }
-  },
-  "files": [
-    "dist"
+  "workspaces": [
+    "packages/*"
   ],
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts src/server.ts --format cjs,esm --dts --clean --sourcemap",
-    "prepublishOnly": "npm run build",
-    "lint": "eslint --ignore-path .gitignore . && tsc --noEmit",
-    "lint:fix": "eslint --ignore-path .gitignore --fix . && tsc --noEmit",
+    "build": "turbo build",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "format": "prettier --write --ignore-unknown .",
-    "prepare": "husky",
-    "check-exports": "attw --pack ."
+    "check-types": "tsc --noEmit",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.15.4",
-    "@commitlint/cli": "^19.4.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@types/node": "^22.5.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-smile": "^0.5.0",
-    "husky": "^9.1.5",
-    "lint-staged": "^15.2.9",
-    "prettier": "^3.3.3",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/compat": "^1.2.7",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3",
     "tsconfig": "^7.0.0",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4"
-  },
-  "engines": {
-    "node": ">=18"
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
   },
   "commitlint": {
     "extends": [
@@ -88,6 +48,7 @@
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown",
-    "*.{js,ts}": "eslint --ignore-path .gitignore"
-  }
+    "*.{js,ts}": "eslint"
+  },
+  "packageManager": "npm@10.9.2"
 }

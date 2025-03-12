@@ -1,5 +1,6 @@
+import { randomInt } from "@tonai/random";
+
 import { createArray } from "./array";
-import { randomInt } from "./random";
 
 /**
  * Select most voted item in an array

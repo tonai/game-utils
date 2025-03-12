@@ -1,4 +1,4 @@
-import type { ITranslations } from "../types";
+export type ITranslations = Record<string, Record<string, string>>;
 
 export function createTranslator(translations: ITranslations) {
   return (language: keyof typeof translations) => {

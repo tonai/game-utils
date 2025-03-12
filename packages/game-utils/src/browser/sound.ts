@@ -1,6 +1,13 @@
-import type { ISoundSources, ISounds } from "../types";
+import { randomInt } from "@tonai/random";
 
-import { randomInt } from "../utils";
+export type ISoundSources = Record<string, string[] | string>;
+
+export interface ISoundInstances {
+  instances: HTMLAudioElement[];
+  source: string;
+}
+
+export type ISounds = Record<string, ISoundInstances | ISoundInstances[]>;
 
 const soundInstances: ISounds = {};
 
@@ -35,7 +42,6 @@ export function playSound(
     instances.push(instance);
   }
   instance.volume = volume;
-  // eslint-disable-next-line no-console
   instance.play().catch((e) => console.error(e));
 
   return instance;

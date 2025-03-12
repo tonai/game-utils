@@ -70,3 +70,6 @@ Thumbs.db
 
 # local env files
 *.local
+
+# Turbo
+.turbo
