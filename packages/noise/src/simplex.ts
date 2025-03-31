@@ -1,6 +1,8 @@
-import { dot, dot3, getVectorId, Vector2, Vector3 } from "@tonai/math";
+// From https://github.com/josephg/noisejs
 
-import { createNoise } from "./noise";
+import { dot, getVectorId, Vector2, Vector3 } from "@tonai/math";
+
+import { noiseCreator } from "./noise";
 
 // Skewing and unskewing factors for 2, 3, and 4 dimensions
 const F2 = 0.5 * (Math.sqrt(3) - 1);
@@ -78,7 +80,7 @@ export function simplex2D(
   memory[id] = r;
   return r;
 }
-export const createSimplex2D = createNoise(simplex2D);
+export const createSimplex2D = noiseCreator(simplex2D);
 
 // 3D simplex noise
 export function simplex3D(
@@ -182,28 +184,28 @@ export function simplex3D(
     n0 = 0;
   } else {
     t0 *= t0;
-    n0 = t0 * t0 * dot3(gi0, { x: x0, y: y0, z: z0 }); // (x,y) of grad3 used for 2D gradient
+    n0 = t0 * t0 * dot(gi0, { x: x0, y: y0, z: z0 }); // (x,y) of grad3 used for 2D gradient
   }
   let t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
   if (t1 < 0) {
     n1 = 0;
   } else {
     t1 *= t1;
-    n1 = t1 * t1 * dot3(gi1, { x: x1, y: y1, z: z1 });
+    n1 = t1 * t1 * dot(gi1, { x: x1, y: y1, z: z1 });
   }
   let t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
   if (t2 < 0) {
     n2 = 0;
   } else {
     t2 *= t2;
-    n2 = t2 * t2 * dot3(gi2, { x: x2, y: y2, z: z2 });
+    n2 = t2 * t2 * dot(gi2, { x: x2, y: y2, z: z2 });
   }
   let t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
   if (t3 < 0) {
     n3 = 0;
   } else {
     t3 *= t3;
-    n3 = t3 * t3 * dot3(gi3, { x: x3, y: y3, z: z3 });
+    n3 = t3 * t3 * dot(gi3, { x: x3, y: y3, z: z3 });
   }
   // Add contributions from each corner to get the final noise value.
   // The result is scaled to return values in the interval [-1,1].
@@ -212,4 +214,4 @@ export function simplex3D(
   memory[id] = r;
   return r;
 }
-export const createSimplex3D = createNoise(simplex3D);
+export const createSimplex3D = noiseCreator(simplex3D);

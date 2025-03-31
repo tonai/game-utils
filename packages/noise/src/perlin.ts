@@ -1,24 +1,52 @@
 import {
   add,
-  add3,
   dot,
-  dot3,
   fade,
   floor,
-  floor3,
   fract,
-  fract3,
   getVectorId,
   lerp,
   minus,
-  minus3,
   vec2,
   vec3,
   Vector2,
   Vector3,
 } from "@tonai/math";
 
-import { createNoise } from "./noise";
+import { noiseCreator } from "./noise";
+
+// 1D Perlin Noise
+export function perlin1D(
+  v: number,
+  getGradient: (v: number) => number,
+  memory: Record<string, number> = {},
+) {
+  const id = getVectorId(v);
+  if (Object.prototype.hasOwnProperty.call(memory, id)) return memory[id];
+
+  const i = Math.floor(v);
+  const f = v - i;
+
+  // Get corners
+  const c0 = i;
+  const c1 = i + 1;
+
+  // Get gradients vectors
+  const g0 = getGradient(c0);
+  const g1 = getGradient(c1);
+
+  // Calculate noise contributions from each of the 2 corners
+  const n0 = (v - c0) * g0;
+  const n1 = (v - c1) * g1;
+
+  // Interpolate the four results
+  const a = fade(f);
+  const r = lerp(n0, n1, a);
+
+  memory[id] = r;
+  return r;
+}
+export const createPerlin1D = noiseCreator(perlin1D);
 
 // 2D Perlin Noise
 export function perlin2D(
@@ -44,7 +72,7 @@ export function perlin2D(
   const g01 = getGradient(c01);
   const g11 = getGradient(c11);
 
-  // Calculate noise contributions from each of the four corners
+  // Calculate noise contributions from each of the 4 corners
   const n00 = dot(minus(v, c00), g00);
   const n10 = dot(minus(v, c10), g10);
   const n01 = dot(minus(v, c01), g01);
@@ -58,7 +86,7 @@ export function perlin2D(
   memory[id] = r;
   return r;
 }
-export const createPerlin2D = createNoise(perlin2D);
+export const createPerlin2D = noiseCreator(perlin2D);
 
 // 3D Perlin Noise
 export function perlin3D(
@@ -69,18 +97,18 @@ export function perlin3D(
   const id = getVectorId(v);
   if (Object.prototype.hasOwnProperty.call(memory, id)) return memory[id];
 
-  const i = floor3(v);
-  const f = fract3(v);
+  const i = floor(v);
+  const f = fract(v);
 
   // Get corners
   const c000 = i;
-  const c001 = add3(i, vec3(0.0, 0.0, 1.0));
-  const c010 = add3(i, vec3(0.0, 1.0, 0.0));
-  const c011 = add3(i, vec3(0.0, 1.0, 1.0));
-  const c100 = add3(i, vec3(1.0, 0.0, 0.0));
-  const c101 = add3(i, vec3(1.0, 0.0, 1.0));
-  const c110 = add3(i, vec3(1.0, 1.0, 0.0));
-  const c111 = add3(i, vec3(1.0, 1.0, 1.0));
+  const c001 = add(i, vec3(0.0, 0.0, 1.0));
+  const c010 = add(i, vec3(0.0, 1.0, 0.0));
+  const c011 = add(i, vec3(0.0, 1.0, 1.0));
+  const c100 = add(i, vec3(1.0, 0.0, 0.0));
+  const c101 = add(i, vec3(1.0, 0.0, 1.0));
+  const c110 = add(i, vec3(1.0, 1.0, 0.0));
+  const c111 = add(i, vec3(1.0, 1.0, 1.0));
 
   // Get gradients vectors
   const g000 = getGradient(c000);
@@ -92,15 +120,15 @@ export function perlin3D(
   const g110 = getGradient(c110);
   const g111 = getGradient(c111);
 
-  // Calculate noise contributions from each of the four corners
-  const n000 = dot3(minus3(v, c000), g000);
-  const n001 = dot3(minus3(v, c001), g001);
-  const n010 = dot3(minus3(v, c010), g010);
-  const n011 = dot3(minus3(v, c011), g011);
-  const n100 = dot3(minus3(v, c100), g100);
-  const n101 = dot3(minus3(v, c101), g101);
-  const n110 = dot3(minus3(v, c110), g110);
-  const n111 = dot3(minus3(v, c111), g111);
+  // Calculate noise contributions from each of the 8 corners
+  const n000 = dot(minus(v, c000), g000);
+  const n001 = dot(minus(v, c001), g001);
+  const n010 = dot(minus(v, c010), g010);
+  const n011 = dot(minus(v, c011), g011);
+  const n100 = dot(minus(v, c100), g100);
+  const n101 = dot(minus(v, c101), g101);
+  const n110 = dot(minus(v, c110), g110);
+  const n111 = dot(minus(v, c111), g111);
 
   // Compute the fade curve value for x, y, z
   const a = fade(f.x);
@@ -117,4 +145,4 @@ export function perlin3D(
   memory[id] = r;
   return r;
 }
-export const createPerlin3D = createNoise(perlin3D);
+export const createPerlin3D = noiseCreator(perlin3D);

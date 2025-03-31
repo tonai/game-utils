@@ -10,6 +10,10 @@ export function fade(x: number): number {
   return ((6 * x - 15) * x + 10) * x * x * x;
 }
 
+export function scaledCosine(i: number): number {
+  return 0.5 * (1.0 - Math.cos(i * Math.PI));
+}
+
 export function interpolate(x: number, a: number, b: number): number {
   return a + fade(x) * (b - a);
 }

@@ -45,99 +45,98 @@ export function mix(v1: Vector2, v2: Vector2, a: number): Vector2 {
   };
 }
 
-export function floor(v: Vector2): Vector2 {
-  return vec2(Math.floor(v.x), Math.floor(v.y));
-}
-
-export function floor3(v: Vector3): Vector3 {
-  return vec3(Math.floor(v.x), Math.floor(v.y), Math.floor(v.z));
-}
-
-export function fract(v: Vector2): Vector2;
-export function fract(v: number): number;
-export function fract(v: number | Vector2): number | Vector2 {
+export function floor(v: number | Vector2 | Vector3): Vector3 {
   if (typeof v === "number") {
-    return v - Math.floor(v);
+    return vec3(Math.floor(v), 0, 0);
   }
-  return vec2(v.x - Math.floor(v.x), v.y - Math.floor(v.y));
+  return vec3(Math.floor(v.x), Math.floor(v.y), Math.floor("z" in v ? v.z : 0));
 }
 
-export function fract3(v: Vector3): Vector3 {
+export function fract(v: number | Vector2 | Vector3): Vector3 {
+  if (typeof v === "number") {
+    return vec3(v - Math.floor(v), 0, 0);
+  }
   return vec3(
     v.x - Math.floor(v.x),
     v.y - Math.floor(v.y),
-    v.z - Math.floor(v.z),
+    "z" in v ? v.z - Math.floor(v.z) : 0,
   );
 }
 
-export function abs(v: Vector2): Vector2 {
-  return vec2(Math.abs(v.x), Math.abs(v.y));
+export function abs(v: Vector2 | Vector3): Vector3 {
+  return vec3(Math.abs(v.x), Math.abs(v.y), "z" in v ? Math.abs(v.z) : 0);
 }
 
-export function abs3(v: Vector3): Vector3 {
-  return vec3(Math.abs(v.x), Math.abs(v.y), Math.abs(v.z));
-}
-
-export function add(v1: Vector2, v2: Vector2 | number): Vector2 {
+export function add(
+  v1: Vector2 | Vector3,
+  v2: number | Vector2 | Vector3,
+): Vector3 {
   if (typeof v2 === "number") {
-    return vec2(v1.x + v2, v1.y + v2);
+    return vec3(v1.x + v2, v1.y + v2, "z" in v1 ? v1.z + v2 : 0);
   }
-  return vec2(v1.x + v2.x, v1.y + v2.y);
+  return vec3(
+    v1.x + v2.x,
+    v1.y + v2.y,
+    "z" in v1 && "z" in v2 ? v1.z + v2.z : 0,
+  );
 }
 
-export function add3(v1: Vector3, v2: Vector3 | number): Vector3 {
+export function minus(
+  v1: Vector2 | Vector3,
+  v2: number | Vector2 | Vector3,
+): Vector3 {
   if (typeof v2 === "number") {
-    return vec3(v1.x + v2, v1.y + v2, v1.z + v2);
+    return vec3(v1.x - v2, v1.y - v2, "z" in v1 ? v1.z - v2 : 0);
   }
-  return vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+  return vec3(
+    v1.x - v2.x,
+    v1.y - v2.y,
+    "z" in v1 && "z" in v2 ? v1.z - v2.z : 0,
+  );
 }
 
-export function minus(v1: Vector2, v2: Vector2 | number): Vector2 {
+export function mul(
+  v1: Vector2 | Vector3,
+  v2: number | Vector2 | Vector3,
+): Vector3 {
   if (typeof v2 === "number") {
-    return vec2(v1.x - v2, v1.y - v2);
+    return vec3(v1.x * v2, v1.y * v2, "z" in v1 ? v1.z * v2 : 0);
   }
-  return vec2(v1.x - v2.x, v1.y - v2.y);
+  return vec3(
+    v1.x * v2.x,
+    v1.y * v2.y,
+    "z" in v1 && "z" in v2 ? v1.z * v2.z : 0,
+  );
 }
 
-export function minus3(v1: Vector3, v2: Vector3 | number): Vector3 {
+export function max(
+  v1: Vector2 | Vector3,
+  v2: number | Vector2 | Vector3,
+): Vector3 {
   if (typeof v2 === "number") {
-    return vec3(v1.x - v2, v1.y - v2, v1.z - v2);
+    return vec3(
+      Math.max(v1.x, v2),
+      Math.max(v1.y, v2),
+      "z" in v1 ? Math.max(v1.z, v2) : 0,
+    );
   }
-  return vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+  return vec3(
+    Math.max(v1.x, v2.x),
+    Math.max(v1.y, v2.y),
+    "z" in v1 && "z" in v2 ? Math.max(v1.z, v2.z) : 0,
+  );
 }
 
-export function mul(v1: Vector2, v2: Vector2 | number): Vector2 {
-  if (typeof v2 === "number") {
-    return vec2(v1.x * v2, v1.y * v2);
+export function dot<V extends Vector2 | Vector3>(v1: V, v2: V): number {
+  return v1.x * v2.x + v1.y * v2.y + ("z" in v1 && "z" in v2 ? v1.z * v2.z : 0);
+}
+
+export function getCoordinates(v: number | Vector2 | Vector3): Vector3 {
+  if (isVec3(v)) {
+    return v;
   }
-  return vec2(v1.x * v2.x, v1.y * v2.y);
-}
-
-export function mul3(v1: Vector3, v2: Vector3 | number): Vector3 {
-  if (typeof v2 === "number") {
-    return vec3(v1.x * v2, v1.y * v2, v1.z * v2);
+  if (isVec2(v)) {
+    return { z: 0, ...v };
   }
-  return vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
-}
-
-export function max(v1: Vector2, v2: Vector2 | number): Vector2 {
-  if (typeof v2 === "number") {
-    return vec2(Math.max(v1.x, v2), Math.max(v1.y, v2));
-  }
-  return vec2(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y));
-}
-
-export function max3(v1: Vector3, v2: Vector3 | number): Vector3 {
-  if (typeof v2 === "number") {
-    return vec3(Math.max(v1.x, v2), Math.max(v1.y, v2), Math.max(v1.z, v2));
-  }
-  return vec3(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y), Math.max(v1.z, v2.z));
-}
-
-export function dot(v1: Vector2, v2: Vector2): number {
-  return v1.x * v2.x + v1.y * v2.y;
-}
-
-export function dot3(v1: Vector3, v2: Vector3): number {
-  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+  return { x: v, y: 0, z: 0 };
 }
