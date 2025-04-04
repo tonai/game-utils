@@ -1,6 +1,6 @@
 {
   "name": "@tonai/math",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Math utility functions",
   "license": "MIT",
   "homepage": "https://github.com/tonai/game-utils",
