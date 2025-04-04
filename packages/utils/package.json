@@ -1,6 +1,6 @@
 {
   "name": "@tonai/utils",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Utility functions",
   "license": "MIT",
   "homepage": "https://github.com/tonai/game-utils",
@@ -46,7 +46,7 @@
     "check-exports": "attw --pack ."
   },
   "dependencies": {
-    "@tonai/random": "^0.2.0"
+    "@tonai/random": "^0.3.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",
