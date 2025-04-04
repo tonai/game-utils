@@ -61,7 +61,7 @@ const PERLIN_ZWRAPB = 8;
 const PERLIN_ZWRAP = 1 << PERLIN_ZWRAPB;
 
 export interface NoiseOptions {
-  ampFalloff?: number;
+  gain?: number;
   octaves?: number;
 }
 
@@ -74,7 +74,7 @@ export function perlinP5Transformed<V extends number | Vector2 | Vector3>(
   const id = getVectorId(v);
   if (Object.prototype.hasOwnProperty.call(memory, id)) return memory[id];
 
-  const { ampFalloff = 4, octaves = 0.5 } = options;
+  const { gain = 0.5, octaves = 4 } = options;
   let { x, y, z } = getCoordinates(v);
 
   if (x < 0) {
@@ -125,14 +125,15 @@ export function perlinP5Transformed<V extends number | Vector2 | Vector3>(
     n1 += scaledCosine(zf) * (n2 - n1);
 
     r += n1 * ampl;
-    ampl *= ampFalloff;
-    xi <<= 1; // multiply by 2 an integer
-    xf *= 2;
-    yi <<= 1; // multiply by 2 an integer
-    yf *= 2;
-    zi <<= 1; // multiply by 2 an integer
-    zf *= 2;
+    ampl *= gain;
 
+    // multiply x, y and z by 2 (lacunarity) to increase the frequency
+    xi <<= 1;
+    xf *= 2;
+    yi <<= 1;
+    yf *= 2;
+    zi <<= 1;
+    zf *= 2;
     if (xf >= 1.0) {
       xi++;
       xf--;
