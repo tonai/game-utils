@@ -58,8 +58,8 @@
     "check-exports": "attw --pack ."
   },
   "dependencies": {
-    "@tonai/random": "^0.0.0",
-    "@tonai/utils": "^0.0.0"
+    "@tonai/random": "^0.2.0",
+    "@tonai/utils": "^0.2.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",
