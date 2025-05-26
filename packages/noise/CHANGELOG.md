@@ -1,5 +1,14 @@
 # @tonai/noise
 
+## 0.3.2
+
+### Patch Changes
+
+- [#6](https://github.com/tonai/game-utils/pull/6) [`e1e7a2c`](https://github.com/tonai/game-utils/commit/e1e7a2c79db606cb776fa86d4d2cab85e49e9496) Thanks [@tonai](https://github.com/tonai)! - Add licence and readme files for each packages
+
+- Updated dependencies [[`e1e7a2c`](https://github.com/tonai/game-utils/commit/e1e7a2c79db606cb776fa86d4d2cab85e49e9496)]:
+  - @tonai/math@0.3.2
+
 ## 0.3.1
 
 ### Patch Changes
